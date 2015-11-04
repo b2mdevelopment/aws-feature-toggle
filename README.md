@@ -31,6 +31,14 @@ var ft = require('aws-feature-toggle');
 ft.start('i-h725', 120000);
 ```
 
+You can then ask if a certain feature is enabled, like so
+
+```javascript
+var ft = require('aws-feature-toggle');
+
+ft.isFeatureEnabled('your-feature'); // boolean
+```
+
 ## Running tests
 
 `npm test`
