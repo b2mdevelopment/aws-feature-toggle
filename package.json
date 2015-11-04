@@ -1,0 +1,28 @@
+{
+  "name": "aws-feature-toggle",
+  "version": "1.0.0",
+  "description": "Tag based feature toggle",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/b2mdevelopment/aws-feature-toggle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/b2mdevelopment/aws-feature-toggle/issues"
+  },
+  "homepage": "https://github.com/b2mdevelopment/aws-feature-toggle",
+  "dependencies": {
+    "aws-sdk": "^2.2.15",
+    "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "mocha": "^2.3.3",
+    "sinon": "^1.17.2"
+  }
+}
