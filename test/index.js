@@ -9,13 +9,13 @@ describe('isFeatureEnabled', function() {
   });
 
   it('returns true if the feature is enabled', function() {
-    lib.featuresCache = { 'feature-toggle': 'feature-name-here' };
-    expect(lib.isFeatureEnabled('feature-toggle')).to.be.true;
+    lib.featuresCache = [ 'feature-name-here' ];
+    expect(lib.isFeatureEnabled('feature-name-here')).to.be.true;
   });
 
   it('returns false if the feature is not enabled', function() {
-    lib.featuresCache = {};
-    expect(lib.isFeatureEnabled('feature-toggle')).to.be.false;
+    lib.featuresCache = [];
+    expect(lib.isFeatureEnabled('feature-name-here')).to.be.false;
   });
 
 });

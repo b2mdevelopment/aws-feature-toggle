@@ -19,12 +19,13 @@ lib.start = function(instanceId, pollEveryMs) {
 
 lib.poll = function() {
   lib.awsWrap(function(err) {
+    if (err) console.log(err);
     setTimeout(lib.poll, lib.config.pollEveryMs); 
   });  
 };
 
 lib.isFeatureEnabled = function(featureName) {
-  return lib.featuresCache[featureName] != null;
+  return lib.featuresCache.indexOf(featureName) > -1;
 };
 
 lib.extractFeaturesNames = function(awsResult) {
