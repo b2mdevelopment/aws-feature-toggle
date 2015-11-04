@@ -25,6 +25,14 @@ ft.start('i-h725');
 You can override the 1 minute poll interval by passing a millisecond value as
 second parameter to `start`, like so
 
+You can then ask if a certain feature is enabled, like so
+
+```javascript
+var ft = require('aws-feature-toggle');
+
+ft.isFeatureEnabled('your-feature'); // boolean
+```
+
 ```javascript
 var ft = require('aws-feature-toggle');
 
