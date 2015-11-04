@@ -1,6 +1,6 @@
 {
   "name": "aws-feature-toggle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tag based feature toggle",
   "main": "index.js",
   "scripts": {
