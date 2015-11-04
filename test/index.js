@@ -36,16 +36,42 @@ describe('featuresCache', function() {
         }]
       }]
     }, tagName = 'feature-toggle';
-    lib.extractFeatureName(awsResult, 'feature-toggle');
-    expect(lib.featuresCache['feature-toggle']).to.equal('feature-name-here');
+    lib.extractFeaturesNames(awsResult, 'feature-toggle');
+    expect(lib.featuresCache).to.deep.equal([ 'feature-name-here' ]);
+  });
+
+  it('is populated correctly for comma separated values', function() {
+    var awsResult = {
+      Reservations: [{
+        Instances: [{
+          Tags: [{
+            Key: 'feature-toggle', Value: 'feature-1,feature-2'
+          }]  
+        }]
+      }]
+    }, tagName = 'feature-toggle';
+    lib.extractFeaturesNames(awsResult, 'feature-toggle');
+    expect(lib.featuresCache).to.deep.equal([ 'feature-1', 'feature-2' ]);
+  });
+
+  it('is an empty array if there is no such tag', function() {
+    var awsResult = {
+      Reservations: [{
+        Instances: [{
+          Tags: []  
+        }]
+      }]
+    }, tagName = 'feature-toggle';
+    lib.extractFeaturesNames(awsResult, 'feature-toggle');
+    expect(lib.featuresCache).to.deep.equal([]);
   });
 
 });
 
-describe('extractFeatureName', function() {
+describe('extractFeaturesNames', function() {
   
   it('exists', function() {
-    expect(lib.extractFeatureName).to.exist;
+    expect(lib.extractFeaturesNames).to.exist;
   })
 
   it('returns the value of a tag', function() {
@@ -58,13 +84,41 @@ describe('extractFeatureName', function() {
         }]
       }]
     }, tagName = 'feature-toggle';
-    var featureName = lib.extractFeatureName(awsResult, 'feature-toggle');
-    expect(featureName).to.equal('feature-name-here');
+    var featureName = lib.extractFeaturesNames(awsResult);
+    expect(featureName).to.deep.equal([ 'feature-name-here' ]);
   });
 
   it('returns null if no result is passed', function() {
-    var featureName = lib.extractFeatureName(undefined, 'feature-toggle');
+    var featureName = lib.extractFeaturesNames(undefined);
     expect(featureName).to.equal(null);
+  });
+
+  it('returns multiple values for a comma separated value', function() {
+    var awsResult = {
+      Reservations: [{
+        Instances: [{
+          Tags: [{
+            Key: 'feature-toggle', Value: 'feature-1,feature-2'
+          }]  
+        }]
+      }]
+    }, tagName = 'feature-toggle';
+    var featureName = lib.extractFeaturesNames(awsResult);
+    expect(featureName).to.deep.equal([ 'feature-1', 'feature-2' ]);
+  });
+
+  it('returns empty array if the value is the empty string', function() {
+    var awsResult = {
+      Reservations: [{
+        Instances: [{
+          Tags: [{
+            Key: 'feature-toggle', Value: ''
+          }]  
+        }]
+      }]
+    }, tagName = 'feature-toggle';
+    var featureName = lib.extractFeaturesNames(awsResult);
+    expect(featureName).to.deep.equal([]);
   });
 
 });

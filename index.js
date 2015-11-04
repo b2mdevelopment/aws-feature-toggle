@@ -8,7 +8,7 @@ lib.config = {
   tagName: 'feature-toggle'
 };
 
-lib.featuresCache = {};
+lib.featuresCache = [];
 
 lib.start = function(instanceId, pollEveryMs) {
   if (pollEveryMs) lib.config.pollEveryMs = pollEveryMs;
@@ -27,16 +27,18 @@ lib.isFeatureEnabled = function(featureName) {
   return lib.featuresCache[featureName] != null;
 };
 
-// TODO should support comma separated tags
-lib.extractFeatureName = function(awsResult, tagName) {
+lib.extractFeaturesNames = function(awsResult) {
   if (awsResult == null) return null;
 
   var tags = awsResult.Reservations[0].Instances[0].Tags;
-  var featureName =  _.find(tags, function(tag) {
-    return tag.Key == tagName;
-  }).Value;
-  lib.featuresCache[tagName] = featureName;
-  return featureName;
+  var value =  _.find(tags, function(tag) {
+    return tag.Key == lib.config.tagName;
+  });
+
+  var featuresNames = [];
+  if (value && value.Value != '') featuresNames = value.Value.split(',');
+  lib.featuresCache = featuresNames;
+  return featuresNames;
 };
 
 // not TDDed
@@ -45,7 +47,7 @@ lib.awsWrap = function(done) {
     InstanceIds: [ lib.config.instanceId ]
   };
   ec2.describeInstances(params, function(err, data) {
-    lib.extractTag(data);
+    lib.extractFeaturesNames(data);
     done(err);
   });
 };
